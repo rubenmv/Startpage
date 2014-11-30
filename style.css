@@ -1,0 +1,42 @@
+@charset'UTF-8';
+body {
+	font-family: 'Roboto', sans-serif;
+	background: url('../img/bg.png') #3B3B3B repeat;
+	color: #fff;
+	text-align: center;
+}
+#dateTime {
+	padding: 1em;
+	font-size: 2em;
+}
+#search-box {
+	width: 50%;
+}
+#weather__current {
+
+}
+#weather__nextDays > div {
+	margin-top: 2em;
+	display: inline-block;
+}
+#settings * {
+	vertical-align: middle;
+}
+#settings-controls {
+	display: none;
+}
+h1 {
+	font-size: 3em;
+	font-weight: 400;
+}
+.col {
+	display: inline-block;
+	width: 49%;
+}
+.col-right {
+	text-align: right;
+}
+.col-left {
+	text-align: left;
+}
+@media (max-width: 720px) {}

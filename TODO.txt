@@ -1,0 +1,11 @@
+- Mostrar el weather con la siguiente información:
+	- Temperatura, humedad y viento actual (con icono).
+	- Lo anterior para varios días.
+	- Hora de sunset y sunrise.
+	
+- Auto deteccion del lugar del que mostrar la info.
+- Agregar caja para indicar el lugar a mostrar el weather, como alternativa a lo anterior.
+- Mostrar fecha actual, simple.
+
+OPTATIVOS
+- Mostrar calendario.
