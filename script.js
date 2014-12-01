@@ -4,12 +4,15 @@ function onSearch(event) {
 	window.location.href = strSearch;
 }
 function onSettings(event) {
-	var controls = document.getElementById("settings-controls");
+	var parent = document.getElementById("settings"),
+		controls = document.getElementById("settings-controls");
 	if (controls.style.display === "none") {
 		controls.style.display = "inline-block";
+		parent.style.backgroundColor = "#222";
 	}
 	else {
 		controls.style.display = "none";
+		parent.style.backgroundColor = "inherit";
 	}
 }
 window.onload = function(event) {

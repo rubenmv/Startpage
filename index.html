@@ -15,41 +15,48 @@
 	</head>
 	<body>
 		<!-- Time and Date -->
-		<div id="dateTime" data-ng-controller='timeCtrl'>
+		<div id="dateTime" class="section" data-ng-controller='timeCtrl'>
 			<p class="col col-left">{{ clock | date:'fullDate'}}</p>
 			<p class="col col-right">{{ clock | date:'mediumTime'}}</p>
 		</div>
 		<!-- Search box -->
-		<form id="search">
-			<input id="search-box" type="text">
-			<input id="search-button" type="button" value="Search">
+		<form id="search" class="section">
+			<input id="search-box" type="text" autofocus="autofocus">
+			<button id="search-button">Search</button>
 		</form>
 		<!-- Weather -->
-		<div id="weather" data-ng-controller="weatherController">
+		<div id="weather" class="section" data-ng-controller="weatherController">
 			<!-- Current weather -->
 			<p data-ng-show="zip">Searching the forecasts for: {{zip}}</p>
 			<div id="weather__current" >
 				<h1>{{ place.location.city }}</h1>
-				<img src="http://l.yimg.com/a/i/us/we/52/{{place.item.condition.code}}.gif" alt="Current weather icon"/>
+				<!-- <img src="http://l.yimg.com/a/i/us/we/52/{{place.item.condition.code}}.gif" alt="Current weather icon"/> -->
+				<img src="img/weather_icons/{{place.item.condition.code}}.png" alt="Current weather icon"/>
 				<h2>{{ place.item.condition.text }} | {{ place.item.condition.temp }}&deg; </h2>
 			</div>
 			<!-- Next days -->
 			<div id="weather__nextDays">
 				<div data-ng-repeat="forecast in place.item.forecast">
-					<p><strong>{{ forecast.date }}</strong> – {{ forecast.text }}</p>
+					<p><strong>{{ forecast.date }}</strong></p>
+					<!-- <img src="http://l.yimg.com/a/i/us/we/52/{{forecast.code}}.gif"/> -->
+					<img src="img/weather_icons/{{forecast.code}}.png"/>
+					<p>{{ forecast.text }}</p>
 					<p>H: {{ forecast.high }}&deg; | L: {{ forecast.low }}&deg;</p>
 				</div>
 			</div>
 		</div>
 		<!-- Settings -->
-		<div id="settings">
-			<div id="settings-controls">
-				<form>
-					<input type="number" data-ng-model="zip">
-					<input type="submit" value="Search" data-ng-click="findWeather(zip)">
-				</form>
+		<div class="section">
+			<div id="settings">
+				<div id="settings-controls">
+					<form>
+						<label>Location code: </label>
+						<input type="text" data-ng-model="zip">
+						<input type="submit" value="Change" data-ng-click="findWeather(zip)">
+					</form>
+				</div>
+				<img id="settings-button" src="img/settings.png" alt="Settings">
 			</div>
-			<img id="settings-button" src="img/settings.png" alt="Settings">
 		</div>
 		<script src="script.js"></script>
 	</body>

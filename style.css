@@ -7,27 +7,48 @@ body {
 }
 #dateTime {
 	padding: 1em;
+	padding-bottom: 0;
 	font-size: 2em;
 }
 #search-box {
 	width: 50%;
 }
-#weather__current {
-
-}
-#weather__nextDays > div {
+#weather__nextDays {
 	margin-top: 2em;
-	display: inline-block;
 }
-#settings * {
+/* day element */
+#weather__nextDays > div {
+	vertical-align: top;
+	max-width: 150px;
+	display: inline-block;
+	padding: 2em;
+}
+#weather__nextDays img {
+	width: 50%;
+}
+#settings {
+	padding: 1em;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	text-align: right;
+
+	transition: all 0.2s linear;
+}
+#settings > * {
 	vertical-align: middle;
 }
 #settings-controls {
 	display: none;
+	margin-right: 2em;
 }
 h1 {
 	font-size: 3em;
 	font-weight: 400;
+}
+.section {
+	margin-bottom: 2em;
 }
 .col {
 	display: inline-block;
