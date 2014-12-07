@@ -5,7 +5,7 @@ app.factory('weatherService', ['$http', '$q',
 		'use strict';
 		function getWeather(zipCode) {
 			var deferred = $q.defer();
-			$http.get('https://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20weather.forecast%20WHERE%20location%3D%22' + zipCode + '%22&format=json&diagnostics=true&callback=').success(function(data) {
+			$http.get('https://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20weather.forecast%20WHERE%20location%3D%22' + zipCode + '%22AND%20u=\'c\'&format=json&diagnostics=true&callback=').success(function(data) {
 				deferred.resolve(data.query.results.channel);
 			}).error(function(err) {
 				console.log('Error retrieving markets');
