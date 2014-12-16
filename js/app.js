@@ -3,6 +3,7 @@ var app = angular.module('startpageApp', []);
 app.factory('weatherService', ['$http', '$q',
 	function($http, $q) {
 		'use strict';
+
 		function getWeather(zipCode) {
 			var deferred = $q.defer();
 			$http.get('https://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20weather.forecast%20WHERE%20location%3D%22' + zipCode + '%22AND%20u=\'c\'&format=json&diagnostics=true&callback=').success(function(data) {
@@ -21,13 +22,19 @@ app.factory('weatherService', ['$http', '$q',
 app.controller('weatherController', ['$scope', 'weatherService',
 	function($scope, weatherService) {
 		'use strict';
+
 		function fetchWeather(zip) {
+			localStorage.setItem('location', zip);
 			weatherService.getWeather(zip).then(function(data) {
 				$scope.place = data;
 			});
 		}
 		// We want to get the weather as soon the controller is ready
-		fetchWeather('SPXX0165');
+		var location = localStorage.getItem('location');
+		if (location === null) {
+			location = 'SPXX0165';
+		}
+		fetchWeather(location);
 		// Add new scope variable that we will attach to a button in the view
 		$scope.findWeather = function(zipCode) {
 			// Clear info and fetch weather
