@@ -1,9 +1,13 @@
 @charset'UTF-8';
 body {
+	opacity: 0;
 	font-family: 'Roboto', sans-serif;
 	background: url('../img/bg.png') #3B3B3B repeat;
 	color: #fff;
 	text-align: center;
+}
+.fade-in-out {
+	transition: opacity 0.5s linear;
 }
 /*BUTTONS*/
 .btn {
@@ -26,9 +30,9 @@ body {
 	cursor:pointer;
 	color:#ffffff;
 	font-family:arial;
-	font-size:13px;
+	font-size:24px;
 	font-weight: 700;
-	padding:6px 24px;
+	padding:10px 20px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #154682;
 }
@@ -47,6 +51,21 @@ body {
 	top:1px;
 }
 
+.animate-show {
+  -webkit-transition:all linear 1s;
+  transition:all linear 1s;
+  opacity:1;
+}
+.animate-show.ng-hide-add,
+.animate-show.ng-hide-remove {
+  display:inline-block!important;
+}
+.animate-show.ng-hide {
+  opacity:0;
+}
+.date-main {
+	font-size: 3em;
+}
 #dateTime {
 	padding: 1em;
 	padding-bottom: 0;
@@ -54,6 +73,19 @@ body {
 }
 #search-box {
 	width: 50%;
+}
+input[type=text] {
+	width: 50%;
+    padding: 10px 20px;
+	font-size: 24px;
+    box-sizing: border-box;
+	outline-style: none;
+	border-width: 0;
+}
+input[type=text]:focus {
+	outline-style: solid;
+	outline-width: 1px;
+	outline-color: chocolate;
 }
 #weather__current img {
 	vertical-align: middle;
@@ -64,27 +96,29 @@ body {
 	text-align: left;
 }
 #weather__nextDays {
-	margin-top: 0.2em;
+	margin-top: 0.1em;
+}
+.forecast__desc {
+	font-size: 12px;
 }
 /* day element */
 #weather__nextDays > div {
 	vertical-align: top;
-	max-width: 150px;
+	max-width: 100px;
 	display: inline-block;
-	padding: 2em;
+	padding: 1em;
 }
 #weather__nextDays img {
 	width: 40%;
 }
 #settings {
-	padding: 0.3em;
+	padding: 0.5em;
 	width: 100%;
 	position: absolute;
 	bottom: 0;
 	right: 0;
 	text-align: right;
-
-	transition: all 0.2s linear;
+	transition: background-color 0.2s linear;
 }
 #settings > * {
 	vertical-align: middle;
@@ -110,4 +144,5 @@ h1 {
 .col-left {
 	text-align: left;
 }
+
 @media (max-width: 720px) {}
