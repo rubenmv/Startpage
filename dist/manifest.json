@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Simple Weather Page",
+  "short_name": "Cool startpage",
+  "description": "Simple Weather Page.",
+  "version": "1.0.0",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "128": "img/icon.png"
+  }
+}

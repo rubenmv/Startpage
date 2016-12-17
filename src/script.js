@@ -8,14 +8,14 @@ function onSettings(event) {
 		controls = document.getElementById("settings-controls");
 	if (controls.style.display === "none") {
 		controls.style.display = "inline-block";
-		parent.style.backgroundColor = "#222";
+		parent.style.backgroundColor = "#111";
 	}
 	else {
 		controls.style.display = "none";
 		parent.style.backgroundColor = "inherit";
 	}
 }
-window.onload = function(event) {
+window.onload = function (event) {
 	document.getElementById("search-button").addEventListener('click', onSearch);
 	document.getElementById("settings-button").addEventListener('click', onSettings);
 	document.getElementById("settings-controls").style.display = "none";
