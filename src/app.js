@@ -6,8 +6,17 @@ var app = angular.module('startpageApp', [])
 		function ($compileProvider) {
 			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|chrome-extension):/);
 			$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|chrome-extension):/);
-		}
-	]);
+		}],
+	'$sceDelegateProvider',
+	function ($sceDelegateProvider) {
+		$sceDelegateProvider.resourceUrlWhitelist([
+			'self',
+			'https://api.flickr.com/**'
+		]);
+	}
+	);
+
+// WEATHER SERVICE
 // Creates getWeather method
 app.factory('weatherFactory', ['$http', '$q',
 	function ($http, $q) {
@@ -30,8 +39,7 @@ app.factory('weatherFactory', ['$http', '$q',
 		};
 	}
 ]);
-
-// Manipulation
+// Weather Controller
 app.controller('weatherController', ['$scope', '$timeout', 'weatherFactory',
 	function ($scope, $timeout, weatherFactory) {
 		'use strict';
@@ -68,7 +76,6 @@ app.controller('weatherController', ['$scope', '$timeout', 'weatherFactory',
 						$scope.location = location;
 					}
 					// Prepare data
-					//$scope.place = data;
 					// Fix 0-9 leading 0 to match images
 					var cod = data.item.condition.code;
 					if (parseInt(cod) < 10) {
@@ -151,100 +158,50 @@ app.controller('weatherController', ['$scope', '$timeout', 'weatherFactory',
 	}
 ]);
 
-// Background fetch 
-app.factory('flickrFactory', ['$http', 'flickrSearchDataService', function ($http, flickrSearchDataService) {
+// Background factory http petition
+app.factory('flickrFactory', ['$http', '$q',
+	function ($http, $q) {
+		'use strict';
+		// No 'Access-Control-Allow-Origin' header is present on the requested resource.
+		/*var flickrFactory = {};
 
-	var flickrFactory = {};
-
-	flickrFactory.getImagesFromUserById = function (_params) {
-
-		var searchData = flickrSearchDataService.getNew("imagesFromUserById", _params);
-
-		return $http({
-			method: 'JSONP',
-			url: searchData.url,
-			params: searchData.object,
-		});
-	};
-
-	flickrFactory.getImagesFromGroupOfUsersByIds = function (_params) {
-
-		var searchData = flickrSearchDataService.getNew("imagesFromGroupOfUsersByIds", _params);
-
-		return $http({
-			method: 'JSONP',
-			url: searchData.url,
-			params: searchData.object,
-		});
-	};
-
-	flickrFactory.getImagesByTags = function (_params) {
-
-		var searchData = flickrSearchDataService.getNew("imagesByTags", _params);
-
-		return $http({
-			method: 'JSONP',
-			url: searchData.url,
-			params: searchData.object,
-		});
-	};
-
-	return flickrFactory;
-}]);
-app.service('flickrSearchDataService', function () {
-	this.getApiBaseUrl = function (_params) {
-		return "https://api.flickr.com/services/feeds/photos_public.gne";
-	};
-
-	this.fillDataInObjectByList = function (_object, _params, _list) {
-
-		angular.forEach(_list, function (value, key) {
-			if (angular.isDefined(_params[value])) {
-				_object.object[value] = _params[value];
-			}
-		});
-
-		return _object;
-	};
-
-	this.getNew = function (_type, _params) {
-		var flickrSearchData = {
-			object: {
-				jsoncallback: 'JSON_CALLBACK',
-				format: "json"
-			},
-			url: "",
+		flickrFactory.getImagesByTags = function (_params) {
+			var searchData = flickrSearchDataService.getNew("imagesByTags", _params);
+			return $http({
+				method: 'JSONP',
+				url: searchData.url,
+				params: searchData.object
+			});
 		};
 
-		switch (_type) {
-			case "imagesFromUserById":
-				flickrSearchData = this.fillDataInObjectByList(flickrSearchData, _params, [
-					'lang', 'id'
-				]);
+		return flickrFactory;*/
 
-				flickrSearchData.url = this.getApiBaseUrl();
-				break;
+		function getImagesByTags(options) {
+			var deferred = $q.defer(),
+				url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=angular.callbacks._0&tagmode=" + options.tagmode + "&tags=" + options.tags;
 
-			case "imagesFromGroupOfUsersByIds":
-				flickrSearchData = this.fillDataInObjectByList(flickrSearchData, _params, [
-					'lang', 'ids'
-				]);
-
-				flickrSearchData.url = this.getApiBaseUrl();
-				break;
-
-			case "imagesByTags":
-				flickrSearchData = this.fillDataInObjectByList(flickrSearchData, _params, [
-					'lang', 'tags', 'tagmode'
-				]);
-
-				flickrSearchData.url = this.getApiBaseUrl();
-				break;
+			$http({
+				method: 'JSONP',
+				url: url,
+				params: [{
+					format: "jsonp",
+					jsoncallback: 'JSON_CALLBACK'
+				}]
+			})
+				.success(function (data) {
+					deferred.resolve(data);
+				})
+				.error(function (err) {
+					console.log('Error retrieving flickr data: ' + err);
+					deferred.reject(err);
+				});
+			return deferred.promise;
 		}
+		return {
+			getImagesByTags: getImagesByTags
+		};
+	}]);
 
-		return flickrSearchData;
-	}
-});
 // Controller for background image
 app.controller('backgroundController', ['$scope', '$timeout', 'flickrFactory',
 	function ($scope, $timeout, flickrFactory) {
@@ -254,7 +211,7 @@ app.controller('backgroundController', ['$scope', '$timeout', 'flickrFactory',
 			flickrFactory.getImagesByTags({ tags: location, tagmode: "any" })
 				.then(function (data) { // success
 					// Find images with location tag
-					var items = data.data.items;
+					var items = data.items;
 					if (items.length > 0) {
 						// Pick a random image
 						var rand = Math.floor(Math.random() * items.length);
@@ -282,7 +239,7 @@ app.controller('backgroundController', ['$scope', '$timeout', 'flickrFactory',
 		$scope.getBackground($scope.location);
 	}
 ]);
-
+// TIME DATE CONTROLLER
 // Controller for time and date
 app.controller('timeController', ['$scope', '$timeout',
 	function ($scope, $timeout) {

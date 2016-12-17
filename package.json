@@ -1,6 +1,6 @@
 {
   "name": "simple-weather-page",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-copy": "0.0.2",
